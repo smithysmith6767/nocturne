@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09090d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nocturne">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Nocturne — Your Music</title>
+<style>
+:root{color-scheme:dark;--bg:#09090d;--panel:#12121a;--panel2:#191923;--line:#282833;--muted:#9999aa;--text:#f5f3fa;--accent:#b69cff;--accent2:#8265d8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#30234b 0%,transparent 42%),var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+button,input,textarea{font:inherit}button{color:inherit;border:0;cursor:pointer}.app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 17px 0}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 0 20px}.brand{font-size:19px;font-weight:750;letter-spacing:.14em}.brand span{color:var(--accent)}.subtle{color:var(--muted);font-size:12px}
+.iconbtn{background:#ffffff0d;border:1px solid var(--line);width:42px;height:42px;border-radius:15px;font-size:18px}
+h1{font-size:29px;line-height:1.12;margin:7px 0 8px;letter-spacing:-.04em}h2{font-size:19px;margin:0 0 13px}.intro{color:var(--muted);margin:0 0 19px}
+.hero{background:linear-gradient(135deg,#28203b,#171522 60%,#17131f);border:1px solid #4b3d63;border-radius:24px;padding:19px;margin-bottom:23px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:#a17be51c;right:-65px;top:-70px;filter:blur(4px)}.hero .eyebrow{font-size:11px;letter-spacing:.15em;color:#c8b8f5;text-transform:uppercase}.hero p{color:#c5bfd2;max-width:260px;line-height:1.5;margin:8px 0 15px}.primary{background:var(--accent);color:#171020;font-weight:750;border-radius:14px;padding:12px 16px}.secondary{background:#ffffff10;border:1px solid var(--line);border-radius:13px;padding:11px 14px}.row{display:flex;align-items:center;gap:11px}.between{justify-content:space-between}.section{margin:24px 0}.search{width:100%;background:#15151e;border:1px solid var(--line);border-radius:15px;padding:14px 15px;color:var(--text);outline:none;margin:0 0 16px}.search:focus{border-color:var(--accent2)}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:5px;margin-bottom:16px}.tab{white-space:nowrap;background:#171720;border:1px solid var(--line);padding:9px 13px;border-radius:99px;color:var(--muted)}.tab.active{background:#32264b;color:#e6dcff;border-color:#67528f}
+.songlist{display:flex;flex-direction:column;gap:7px}.song{display:flex;align-items:center;gap:12px;padding:9px;border-radius:16px;background:#ffffff06}.song:active{background:#ffffff12}.cover{width:49px;height:49px;flex:0 0 49px;border-radius:12px;background:linear-gradient(135deg,#44345d,#171722);display:grid;place-items:center;font-size:20px;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover}.songmeta{min-width:0;flex:1}.songtitle{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.artist{color:var(--muted);font-size:12px;margin-top:4px}.more{background:transparent;color:var(--muted);font-size:20px;padding:8px}
+.empty{border:1px dashed #393543;border-radius:18px;padding:25px;text-align:center;color:var(--muted);line-height:1.5}.empty strong{display:block;color:var(--text);margin-bottom:5px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0d0c12f2;backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));z-index:5}.bottominner{max-width:760px;margin:auto}.mini{display:flex;align-items:center;gap:10px;margin-bottom:8px;cursor:pointer}.mini .cover{width:42px;height:42px;flex-basis:42px}.miniinfo{flex:1;min-width:0}.miniinfo .songtitle{font-size:13px}.miniinfo .artist{font-size:11px}.play{background:var(--text);color:#15121a;border-radius:50%;width:39px;height:39px;font-size:17px}.nav{display:flex;justify-content:space-around}.nav button{background:transparent;color:var(--muted);font-size:11px;padding:5px 12px}.nav button.active{color:var(--accent)}
+.page{display:none}.page.active{display:block}.librarytop{margin-bottom:15px}
+.playerpage{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 10%,#3a2b53,#111019 48%,#09090d);z-index:10;display:none;padding:calc(env(safe-area-inset-top) + 12px) 22px calc(env(safe-area-inset-bottom) + 18px);overflow:auto}.playerpage.open{display:flex;flex-direction:column}.playerhead{display:flex;justify-content:space-between;align-items:center}.playerart{width:min(76vw,360px);aspect-ratio:1;margin:8vh auto 27px;border-radius:24px;background:linear-gradient(135deg,#5c477d,#1d1b2b);box-shadow:0 22px 65px #0009;display:grid;place-items:center;font-size:70px;overflow:hidden}.playerart img{width:100%;height:100%;object-fit:cover}.playerinfo{max-width:500px;width:100%;margin:0 auto}.playerinfo h2{font-size:24px;margin:0 0 6px}.progress{width:100%;accent-color:var(--accent);margin:18px 0 3px}.time{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.controls{display:flex;justify-content:center;align-items:center;gap:30px;margin:22px 0}.bigplay{width:66px;height:66px;border-radius:50%;background:var(--text);color:#141019;font-size:25px}.control{background:transparent;font-size:22px;color:#ddd}.lyrics{white-space:pre-wrap;text-align:center;color:#d8d0e6;line-height:1.8;max-height:27vh;overflow:auto;margin-top:10px;font-size:14px}
+.modal{position:fixed;inset:0;background:#0009;z-index:20;display:none;align-items:flex-end}.modal.open{display:flex}.sheet{background:#171620;border:1px solid var(--line);border-radius:23px 23px 0 0;padding:22px 18px calc(25px + env(safe-area-inset-bottom));width:100%;max-height:85vh;overflow:auto}.sheet h2{margin-bottom:17px}.field{width:100%;background:#0d0d13;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);margin:7px 0 13px}.sheet label{font-size:12px;color:var(--muted)}.sheet textarea{min-height:130px;resize:vertical}.sheetactions{display:flex;gap:9px;margin-top:8px}.sheetactions button{flex:1}
+.toast{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:50%;transform:translateX(-50%);background:#292334;border:1px solid #594b70;border-radius:99px;padding:10px 15px;z-index:30;display:none;font-size:12px}
+@media(min-width:650px){.app{padding-left:26px;padding-right:26px}.hero{padding:25px}.playerart{margin-top:4vh}.playerpage{align-items:center}.playerinfo{margin:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div><div class="brand">N<span>O</span>CTURNE</div><div class="subtle">YOUR MUSIC, YOUR SPACE</div></div><button class="iconbtn" id="settingsBtn" aria-label="Settings">⚙</button></header>
+<main>
+<section class="page active" id="homePage">
+<h1>Your sound.<br>On your terms.</h1><p class="intro">A quiet place for the music you love.</p>
+<div class="hero"><div class="eyebrow">Your personal music space</div><h2 style="font-size:22px;margin:8px 0 0">Make it yours.</h2><p>Bring in your audio files and build a library that belongs to you.</p><button class="primary" id="importHero">＋ Import music</button></div>
+<div class="section"><div class="row between"><h2>Recently added</h2><span class="subtle" id="songCount">0 tracks</span></div><div id="homeSongs" class="songlist"></div></div>
+</section>
+<section class="page" id="libraryPage">
+<div class="librarytop"><h1>Your library</h1><p class="intro">Every track, all in one place.</p></div>
+<input class="search" id="search" placeholder="⌕  Search songs or artists" autocomplete="off">
+<div class="tabs"><button class="tab active" data-filter="all">All songs</button><button class="tab" data-filter="favorites">Favorites</button></div>
+<div id="librarySongs" class="songlist"></div>
+</section>
+<section class="page" id="playlistsPage">
+<h1>Playlists</h1><p class="intro">Collections for every kind of day.</p>
+<button class="secondary" id="newPlaylist">＋ Create playlist</button>
+<div class="section" id="playlistList"></div>
+</section>
+<section class="page" id="settingsPage">
+<h1>Settings</h1><p class="intro">Make Nocturne feel like yours.</p>
+<div class="section">
+<div class="row between"><div><strong>Import music</strong><div class="subtle">Choose audio files stored on your iPhone</div></div><button class="secondary" id="importSettings">Import</button></div>
+</div>
+<div class="section"><strong>Storage & privacy</strong><p class="subtle">Your imported audio and library are stored locally in this browser on this device. Clearing Safari website data may erase your library. Keep original music files backed up elsewhere.</p></div>
+<div class="section"><strong>Lyrics</strong><p class="subtle">Open a song's menu and add plain-text or timestamped .LRC lyrics. Timestamped lyrics can be highlighted as the song plays.</p></div>
+<div class="section"><strong>About</strong><p class="subtle">Nocturne is a personal music-player starter, inspired by elegant desktop music libraries. It is not affiliated with Liner.</p></div>
+</section>
+</main>
+</div>
+<div class="bottom"><div class="bottominner">
+<div class="mini" id="miniPlayer"><div class="cover" id="miniCover">♫</div><div class="miniinfo"><div class="songtitle" id="miniTitle">Nothing playing</div><div class="artist" id="miniArtist">Import music to begin</div></div><button class="play" id="miniPlay">▶</button></div>
+<div class="nav"><button class="active" data-page="homePage">⌂<br>Home</button><button data-page="libraryPage">▤<br>Library</button><button data-page="playlistsPage">♡<br>Playlists</button><button data-page="settingsPage">⚙<br>Settings</button></div>
+</div></div>
+<div class="playerpage" id="player">
+<div class="playerhead"><button class="iconbtn" id="closePlayer">⌄</button><span class="subtle">NOW PLAYING</span><button class="iconbtn" id="playerMore">•••</button></div>
+<div class="playerart" id="playerArt">♫</div>
+<div class="playerinfo"><div class="row between"><div style="min-width:0"><h2 id="playerTitle">Nothing playing</h2><div class="artist" id="playerArtist">Choose a song from your library</div></div><button class="iconbtn" id="favoriteBtn">♡</button></div>
+<input type="range" class="progress" id="progress" min="0" max="1000" value="0"><div class="time"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+<div class="controls"><button class="control" id="shuffleBtn" title="Shuffle">⤨</button><button class="control" id="prevBtn">|◀</button><button class="bigplay" id="bigPlay">▶</button><button class="control" id="nextBtn">▶|</button><button class="control" id="repeatBtn" title="Repeat">↻</button></div>
+<div class="row between"><span class="subtle">LYRICS</span><button class="subtle" id="editLyrics" style="background:none">＋ Add / edit</button></div><div class="lyrics" id="lyricsBox">Lyrics will appear here when added.</div>
+</div></div>
+<div class="modal" id="modal"><div class="sheet"><div class="row between"><h2 id="modalTitle">Add details</h2><button class="iconbtn" id="modalClose">×</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept="audio/*,.mp3,.m4a,.aac,.wav,.flac,.ogg,.opus" multiple hidden>
+<audio id="audio" preload="metadata"></audio>
+<script>
+const DB='nocturne-db', STORE='tracks';let db,tracks=[],currentId=null,filter='all',queue=[],shuffle=false,repeat=false,activePlaylist=null;
+const audio=document.getElementById('audio');
+const $=id=>document.getElementById(id);
+function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2300)}
+function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore(STORE,{keyPath:'id'});r.onsuccess=()=>{db=r.result;res()};r.onerror=()=>rej(r.error)})}
+function put(t){return new Promise((res,rej)=>{let r=db.transaction(STORE,'readwrite').objectStore(STORE).put(t);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+function getAll(){return new Promise((res,rej)=>{let r=db.transaction(STORE).objectStore(STORE).getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function del(id){return new Promise((res,rej)=>{let r=db.transaction(STORE,'readwrite').objectStore(STORE).delete(id);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function parseName(name){let s=name.replace(/\.[^.]+$/,'').replace(/_/g,' ');let p=s.split(' - ');return {title:p.length>1?p.slice(1).join(' - '):s,artist:p.length>1?p[0]:'Unknown artist'}}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function refresh(){tracks=await getAll();tracks.sort((a,b)=>b.added-a.added);render()}
+function render(){let recent=tracks.slice(0,5);$('songCount').textContent=tracks.length+' tracks';$('homeSongs').innerHTML=recent.length?recent.map(songHTML).join(''):emptyHTML('Your library is waiting','Import audio files from your iPhone to get started.');let list=tracks.filter(t=>(filter==='all'||t.favorite)&&(! $('search')||((t.title+' '+t.artist).toLowerCase().includes(($('search')?.value||'').toLowerCase()))));$('librarySongs').innerHTML=list.length?list.map(songHTML).join(''):emptyHTML('No matching tracks','Try another search or import some music.');renderPlaylists();updateMini()}
+function emptyHTML(a,b){return `<div class="empty"><strong>${a}</strong>${b}</div>`}
+function songHTML(t){return `<div class="song" data-id="${t.id}"><div class="cover">${t.art?`<img src="${t.art}">`:'♫'}</div><div class="songmeta"><div class="songtitle">${esc(t.title)}</div><div class="artist">${esc(t.artist)}</div></div><button class="more" data-menu="${t.id}">•••</button></div>`}
+function renderPlaylists(){let pls=JSON.parse(localStorage.getItem('nocturne-playlists')||'[]');$('playlistList').innerHTML=pls.length?pls.map(p=>`<div class="song" data-pl="${esc(p.id)}"><div class="cover">▤</div><div class="songmeta"><div class="songtitle">${esc(p.name)}</div><div class="artist">${p.ids.length} tracks</div></div><button class="more" data-plmenu="${esc(p.id)}">•••</button></div>`).join(''):emptyHTML('No playlists yet','Create a playlist and add songs from the library.')}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id))}
+function current(){return tracks.find(t=>t.id===currentId)}
+function playTrack(id){let t=tracks.find(x=>x.id===id);if(!t)return;currentId=id;audio.src=URL.createObjectURL(t.blob);audio.play().catch(()=>toast('Tap play to start audio'));updatePlayer();updateMini();$('player').classList.add('open');if('mediaSession'in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:t.title,artist:t.artist,album:'Nocturne'});navigator.mediaSession.setActionHandler('play',()=>audio.play());navigator.mediaSession.setActionHandler('pause',()=>audio.pause());navigator.mediaSession.setActionHandler('previoustrack',prev);navigator.mediaSession.setActionHandler('nexttrack',next)}}
+function updatePlayer(){let t=current();if(!t)return;$('playerTitle').textContent=t.title;$('playerArtist').textContent=t.artist;$('playerArt').innerHTML=t.art?`<img src="${t.art}">`:'♫';$('favoriteBtn').textContent=t.favorite?'♥':'♡';$('lyricsBox').textContent=t.lyrics||'Lyrics will appear here when added.';updateLyrics()}
+function updateMini(){let t=current();$('miniTitle').textContent=t?t.title:'Nothing playing';$('miniArtist').textContent=t?t.artist:'Import music to begin';$('miniCover').innerHTML=t&&t.art?`<img src="${t.art}">`:'♫';$('miniPlay').textContent=audio.paused?'▶':'Ⅱ'}
+function togglePlay(){if(!current()){if(tracks[0])playTrack(tracks[0].id);return}audio.paused?audio.play():audio.pause()}
+function next(){if(!tracks.length)return;let i=tracks.findIndex(t=>t.id===currentId);let n=shuffle?Math.floor(Math.random()*tracks.length):(i+1)%tracks.length;playTrack(tracks[n].id)}
+function prev(){if(audio.currentTime>3){audio.currentTime=0;return}let i=tracks.findIndex(t=>t.id===currentId);playTrack(tracks[(i-1+tracks.length)%tracks.length].id)}
+function fmt(n){if(!isFinite(n))return'0:00';return Math.floor(n/60)+':'+String(Math.floor(n%60)).padStart(2,'0')}
+function parseLRC(s){return s.split(/\r?\n/).map(line=>{let m=line.match(/^\[(\d{2}):(\d{2})(?:\.(\d{1,3}))?\](.*)$/);return m?{time:+m[1]*60 + +m[2] + +(m[3]||0)/1000,text:m[4].trim()}:null}).filter(Boolean)}
+function updateLyrics(){let t=current();if(!t)return;let lines=parseLRC(t.lyrics||'');if(!lines.length)return;let now=audio.currentTime;let i=lines.findIndex((l,j)=>now>=l.time&&(j===lines.length-1||now<lines[j+1].time));$('lyricsBox').innerHTML=lines.map((l,j)=>`<div style="opacity:${j===i?1:.48};font-weight:${j===i?700:400};color:${j===i?'#d8c5ff':'inherit'}">${esc(l.text)}</div>`).join('');if(i>=0){let el=$('lyricsBox').children[i];el?.scrollIntoView({block:'center',behavior:'smooth'})}}
+function openModal(title,html){$('modalTitle').textContent=title;$('modalBody').innerHTML=html;$('modal').classList.add('open')}
+function closeModal(){$('modal').classList.remove('open')}
+function trackMenu(id){let t=tracks.find(x=>x.id===id);openModal(t.title,`<button class="secondary field" id="favAction">${t.favorite?'Remove from':'Add to'} favorites</button><button class="secondary field" id="lyricsAction">Add / edit lyrics</button><button class="secondary field" id="artAction">Add cover image</button><button class="secondary field" id="deleteAction" style="color:#ff9d9d">Remove from library</button>`);$('favAction').onclick=async()=>{t.favorite=!t.favorite;await put(t);closeModal();refresh();updatePlayer()};$('lyricsAction').onclick=()=>lyricsModal(id);$('artAction').onclick=()=>{closeModal();let f=document.createElement('input');f.type='file';f.accept='image/*';f.onchange=async()=>{let file=f.files[0];if(file){t.art=await fileToData(file);await put(t);refresh();updatePlayer()}};f.click()};$('deleteAction').onclick=async()=>{if(currentId===id){audio.pause();audio.removeAttribute('src');currentId=null;updateMini()}await del(id);closeModal();refresh()}}
+function lyricsModal(id){let t=tracks.find(x=>x.id===id);openModal('Song lyrics',`<label>Paste plain lyrics or timestamped LRC lyrics</label><textarea class="field" id="lyricsInput" placeholder="[00:12.00]First line of the song&#10;[00:16.50]Second line...">${esc(t.lyrics||'')}</textarea><div class="subtle">Timestamp format: [mm:ss.xx] lyric line. Plain text also works.</div><div class="sheetactions"><button class="secondary" id="cancelLyrics">Cancel</button><button class="primary" id="saveLyrics">Save lyrics</button></div>`);$('cancelLyrics').onclick=closeModal;$('saveLyrics').onclick=async()=>{t.lyrics=$('lyricsInput').value;await put(t);closeModal();if(currentId===id)updatePlayer();toast('Lyrics saved')}}
+function fileToData(file){return new Promise(res=>{let r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file)})}
+$('fileInput').onchange=async e=>{let files=[...e.target.files];for(let f of files){if(!f.type.startsWith('audio/')&&!/\.(mp3|m4a|aac|wav|flac|ogg|opus)$/i.test(f.name))continue;let n=parseName(f.name);await put({id:uid(),title:n.title,artist:n.artist,blob:f,added:Date.now(),favorite:false,lyrics:'',art:''})}await refresh();toast(files.length+' file(s) imported');e.target.value=''}
+function importFiles(){$('fileInput').click()}
+$('importHero').onclick=importFiles;$('importSettings').onclick=importFiles;
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+document.addEventListener('click',e=>{let song=e.target.closest('.song');if(e.target.dataset.menu){trackMenu(e.target.dataset.menu);return}if(song?.dataset.id){playTrack(song.dataset.id);return}if(e.target.dataset.plmenu){playlistMenu(e.target.dataset.plmenu);return}if(song?.dataset.pl){openPlaylist(song.dataset.pl)}});
+$('search').oninput=render;document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));render()});
+$('miniPlay').onclick=e=>{e.stopPropagation();togglePlay()};$('miniPlayer').onclick=()=>{if(current())$('player').classList.add('open');else if(tracks[0])playTrack(tracks[0].id)};
+$('closePlayer').onclick=()=>$('player').classList.remove('open');$('bigPlay').onclick=togglePlay;$('prevBtn').onclick=prev;$('nextBtn').onclick=next;$('shuffleBtn').onclick=()=>{shuffle=!shuffle;$('shuffleBtn').style.color=shuffle?'var(--accent)':'#ddd'};$('repeatBtn').onclick=()=>{repeat=!repeat;$('repeatBtn').style.color=repeat?'var(--accent)':'#ddd'};$('favoriteBtn').onclick=async()=>{let t=current();if(t){t.favorite=!t.favorite;await put(t);updatePlayer();render()}};
+$('editLyrics').onclick=()=>{let t=current();if(t)lyricsModal(t.id)};$('playerMore').onclick=()=>{let t=current();if(t)trackMenu(t.id)};
+$('progress').oninput=e=>{if(isFinite(audio.duration))audio.currentTime=audio.duration*e.target.value/1000};
+audio.ontimeupdate=()=>{if(isFinite(audio.duration)){$('progress').value=audio.currentTime/audio.duration*1000;$('currentTime').textContent=fmt(audio.currentTime);$('duration').textContent=fmt(audio.duration)}updateLyrics()};
+audio.onplay=()=>{$('bigPlay').textContent='Ⅱ';$('miniPlay').textContent='Ⅱ'};audio.onpause=()=>{$('bigPlay').textContent='▶';$('miniPlay').textContent='▶'};audio.onended=()=>{if(repeat){audio.currentTime=0;audio.play()}else next()};
+$('newPlaylist').onclick=()=>{openModal('Create playlist',`<label>Playlist name</label><input class="field" id="plName" placeholder="Late night mix"><div class="sheetactions"><button class="secondary" id="plCancel">Cancel</button><button class="primary" id="plCreate">Create</button></div>`);$('plCancel').onclick=closeModal;$('plCreate').onclick=()=>{let name=$('plName').value.trim();if(!name)return;let pls=JSON.parse(localStorage.getItem('nocturne-playlists')||'[]');pls.push({id:uid(),name,ids:[]});localStorage.setItem('nocturne-playlists',JSON.stringify(pls));closeModal();renderPlaylists()}}
+function playlistMenu(id){let pls=JSON.parse(localStorage.getItem('nocturne-playlists')||'[]'),p=pls.find(x=>x.id===id);openModal(p.name,`<button class="secondary field" id="addSong">Add current song</button><button class="secondary field" id="renamePl">Rename playlist</button><button class="secondary field" id="deletePl" style="color:#ff9d9d">Delete playlist</button>`);$('addSong').onclick=()=>{if(!currentId){toast('Play a song first');return}if(!p.ids.includes(currentId))p.ids.push(currentId);localStorage.setItem('nocturne-playlists',JSON.stringify(pls));closeModal();renderPlaylists()};$('renamePl').onclick=()=>{closeModal();openModal('Rename playlist',`<input class="field" id="renameInput" value="${esc(p.name)}"><button class="primary" id="renameSave">Save</button>`);$('renameSave').onclick=()=>{p.name=$('renameInput').value;localStorage.setItem('nocturne-playlists',JSON.stringify(pls));closeModal();renderPlaylists()}};$('deletePl').onclick=()=>{localStorage.setItem('nocturne-playlists',JSON.stringify(pls.filter(x=>x.id!==id)));closeModal();renderPlaylists()}}
+function openPlaylist(id){let p=JSON.parse(localStorage.getItem('nocturne-playlists')||'[]').find(x=>x.id===id);if(!p)return;let items=p.ids.map(id=>tracks.find(t=>t.id===id)).filter(Boolean);openModal(p.name,items.length?items.map(songHTML).join(''):'<div class="empty">No songs in this playlist yet. Play a song, then use the playlist menu to add it.</div>');}
+$('settingsBtn').onclick=()=>showPage('settingsPage');$('modalClose').onclick=closeModal;$('modal').onclick=e=>{if(e.target===$('modal'))closeModal()};
+(async()=>{try{await openDB();await refresh();if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{})}catch(e){toast('Local music storage is unavailable in this browser')}})();
+</script>
+</body></html>
